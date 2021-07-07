@@ -7,6 +7,7 @@ The keybinds are customizable in `<saves location>/minisavestates.json` and by d
     "SaveStateButton": "f2"
 }
 ```
+When you save a state it gets saved to the file `<saves location>/minisavestates-saved.json`
 
 ### Building
 
