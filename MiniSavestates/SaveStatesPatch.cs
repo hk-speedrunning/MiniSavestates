@@ -17,31 +17,60 @@ namespace Patches
         public string SaveStateButton = "f2";
     }
 
+    [Serializable]
+    public struct SavedState
+    {
+        public string saveScene;
+        public PlayerData savedPlayerData;
+        public SceneData savedSceneData;
+        public Vector3 savePos;
+    }
+
     public static class SaveStateManager
     {
-        private static string saveScene;
-        private static PlayerData savedPd;
         private static object lockArea;
-        private static SceneData savedSd;
-        private static Vector3 savePos;
         private static readonly FieldInfo cameraGameplayScene = typeof(CameraController)
             .GetField("isGameplayScene", BindingFlags.Instance | BindingFlags.NonPublic);
         private static FieldInfo cameraLockArea = typeof(CameraController)
             .GetField("currentLockArea", BindingFlags.Instance | BindingFlags.NonPublic);
-
         public static Keybinds Keybinds = new Keybinds();
 
         public static void LoadState()
         {
-            GameManager.instance.StartCoroutine(LoadStateCoro());
+            SavedState savedState = new SavedState();
+            try
+            {
+                savedState = JsonUtility.FromJson<SavedState>(
+                    File.ReadAllText(Application.persistentDataPath + "/minisavestates-saved.json")
+                );
+            }
+            catch (Exception e)
+            {
+                Debug.LogError(e);
+            }
+            GameManager.instance.StartCoroutine(LoadStateCoro(savedState));
         }
 
         public static void SaveState()
         {
-            savedPd = JsonUtility.FromJson<PlayerData>(JsonUtility.ToJson(PlayerData.instance));
-            savedSd = JsonUtility.FromJson<SceneData>(JsonUtility.ToJson(SceneData.instance));
-            savePos = HeroController.instance.gameObject.transform.position;
-            saveScene = GameManager.instance.GetSceneNameString();
+            var savedState = new SavedState
+            {
+                saveScene = GameManager.instance.GetSceneNameString(),
+                savedPlayerData = PlayerData.instance,
+                savedSceneData = SceneData.instance,
+                savePos = HeroController.instance.gameObject.transform.position
+            };
+            try
+            {
+                File.WriteAllText(
+                    Application.persistentDataPath + "/minisavestates-saved.json",
+                    JsonUtility.ToJson(savedState)
+                );
+            }
+            catch (Exception e)
+            {
+                Debug.LogError(e);
+            }
             lockArea = cameraLockArea.GetValue(GameManager.instance.cameraCtrl);
         }
 
@@ -59,8 +88,13 @@ namespace Patches
             }
         }
 
-        private static IEnumerator LoadStateCoro()
+        private static IEnumerator LoadStateCoro(SavedState savedState)
         {
+            var savedPd = savedState.savedPlayerData;
+            var savedSd = savedState.savedSceneData;
+            var saveScene = savedState.saveScene;
+            var savePos = savedState.savePos;
+
             if (savedPd == null || string.IsNullOrEmpty(saveScene))
             {
                 yield break;
@@ -85,8 +119,7 @@ namespace Patches
             });
             cameraGameplayScene.SetValue(GameManager.instance.cameraCtrl, true);
             GameManager.instance.cameraCtrl.PositionToHero(false);
-            bool flag2 = lockArea != null;
-            if (flag2)
+            if (lockArea != null)
             {
                 GameManager.instance.cameraCtrl.LockToArea(lockArea as CameraLockArea);
             }
