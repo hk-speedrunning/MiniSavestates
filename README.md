@@ -1,6 +1,6 @@
 ### How to use
 Download the `Assembly-CSharp.dll` file and replace it in your hollow knight install's `Managed` folder.  
-The keybinds are customizable and by default it is
+The keybinds are customizable in `<saves location>/minisavestates.json` and by default it is
 ```json
 {
     "LoadStateButton": "f1",
