@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net472</TargetFramework>
+        <AssemblyName>Assembly-CSharp.mm</AssemblyName>
+        <LangVersion>latest</LangVersion>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="MonoMod" Version="21.4.29.1">
+            <IncludeAssets>all</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
+    <ItemGroup>
+        <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+            <HintPath>../vanilla/Assembly-CSharp.dll</HintPath>
+            <SpecificVersion>False</SpecificVersion>
+        </Reference>
+        <Reference Include="UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+            <HintPath>../vanilla/UnityEngine.CoreModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.TextRenderingModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+            <HintPath>../vanilla/UnityEngine.TextRenderingModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.JSONSerializeModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+            <HintPath>../vanilla/UnityEngine.JSONSerializeModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.InputLegacyModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+            <HintPath>../vanilla/UnityEngine.InputLegacyModule.dll</HintPath>
+        </Reference>
+    </ItemGroup>
+    <ItemGroup>
+        <Files Include="$(SolutionDir)Vanilla/*" />
+        <BuildDir Include="$(TargetDir)" />
+    </ItemGroup>
+    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+        <Copy SkipUnchangedFiles="true" SourceFiles="@(Files)" DestinationFolder="@(BuildDir)" />
+        <Delete Condition="Exists('MONOMODDED_Assembly-CSharp.dll')" Files="MONOMODDED_Assembly-CSharp.dll" />
+        <Exec WorkingDirectory="@(BuildDir)" Command="MonoMod.exe Assembly-CSharp.dll" />
+        <Copy SourceFiles="$(TargetDir)/MONOMODDED_Assembly-CSharp.dll" DestinationFiles="$(SolutionDir)/out/Assembly-CSharp.dll" />
+    </Target>
+</Project>
