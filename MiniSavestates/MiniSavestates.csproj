@@ -26,6 +26,9 @@
         <Reference Include="UnityEngine.InputLegacyModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
             <HintPath>../vanilla/UnityEngine.InputLegacyModule.dll</HintPath>
         </Reference>
+        <Reference Include="UnityEngine.IMGUIModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+            <HintPath>../vanilla/UnityEngine.IMGUIModule.dll</HintPath>
+        </Reference>
     </ItemGroup>
     <ItemGroup>
         <Files Include="$(SolutionDir)Vanilla/*" />
