@@ -127,8 +127,10 @@ namespace Patches
             GameManager.instance.cameraCtrl.FadeSceneIn();
             HeroController.instance.TakeMP(1);
             HeroController.instance.AddMPChargeSpa(1);
-            HeroController.instance.TakeHealth(1);
-            HeroController.instance.AddHealth(1);
+            HeroController.instance.playerData.health -= 1;
+            HeroController.instance.proxyFSM.SendEvent("HeroCtrl-HeroDamaged");
+            HeroController.instance.playerData.health += 1;
+            HeroController.instance.proxyFSM.SendEvent("HeroCtrl-Healed");
             HeroController.instance.geoCounter.geoTextMesh.text = savedPd.geo.ToString();
             GameCameras.instance.hudCanvas.gameObject.SetActive(true);
             cameraGameplayScene.SetValue(GameManager.instance.cameraCtrl, true);
