@@ -11,6 +11,6 @@ When you save a state it gets saved to the file `<saves location>/minisavestates
 
 ### Building
 
-1. Copy vanilla managed folder into a new folder named `vanilla` in this repository.
+1. Copy vanilla managed folder into a new folder named `vanilla-15` in this repository.
 2. run `dotnet build`.
-3. The output will be in `out`.
+3. The output will be in `out-15`.
