@@ -1,3 +1,49 @@
+name: build
+
+on: [workflow_dispatch]
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        version: [1.5.78.11833]
+        platform: [windows, macos, linux]
+        ref: [main]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Binaries
+        uses: actions/checkout@v4
+        with:
+          repository: https://github.com/hk-modding/hk-binary-archives
+          ref: ${{ matrix.ref }}
+          ssh-key: ${{ secrets.BINARY_ARCHIVE_DEPLOY_KEY }}
+          sparse-checkout: |
+            ${{ matrix.version }}/managed.${{ matrix.platform }}.tar.gz
+          sparse-checkout-cone-mode: false
+          
+      - name: Unpack Archive
+        run: |
+          mkdir Managed
+          cd Managed
+          tar -xzf ../hk-binary-archives/${{ matrix.version }}/managed.${{ matrix.platform }}.tar.gz
+      
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+      
+      - name: Setup MSBuild
+        run: |
+          sudo apt-get install -y nuget mono-devel mono-xbuild
+      
+      - name: Build
+        run: |
+          dotnet restore
+          dotnet build
+      
+      - name: Upload Binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: build.${{ matrix.version }}.${{ matrix.platform }}
+          path: ./out-15/
 # name: build
 
 # on: [push, pull_request]
