@@ -24,6 +24,8 @@ jobs:
     uses: ./.github/workflows/build.yaml
     with:
       version: ${{ inputs.hk-version }}
+    secrets:
+      BINARY_ARCHIVE_DEPLOY_KEY: ${{ secrets.BINARY_ARCHIVE_DEPLOY_KEY }}
   release:
     needs: build-binaries
     runs-on: ubuntu-latest
