@@ -11,20 +11,23 @@ jobs:
         ref: [main]
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
       - name: Checkout Binaries
         uses: actions/checkout@v4
         with:
-          repository: https://github.com/hk-modding/hk-binary-archives
+          repository: hk-modding/hk-binary-archives
           ref: ${{ matrix.ref }}
           ssh-key: ${{ secrets.BINARY_ARCHIVE_DEPLOY_KEY }}
           sparse-checkout: |
             ${{ matrix.version }}/managed.${{ matrix.platform }}.tar.gz
           sparse-checkout-cone-mode: false
+          path: ./hk-binary-archives
           
       - name: Unpack Archive
         run: |
           mkdir Managed
-          cd Managed
+          cd ./Managed
           tar -xzf ../hk-binary-archives/${{ matrix.version }}/managed.${{ matrix.platform }}.tar.gz
       
       - name: Setup .NET
