@@ -1,12 +1,23 @@
 name: build
 
-on: [workflow_dispatch]
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Hollow Knight version
+        required: true
+        type: string
+  workflow_call:
+    inputs:
+      version:
+        description: Hollow Knight version
+        required: true
+        type: string
 
 jobs:
   build:
     strategy:
       matrix:
-        version: [1.5.78.11833]
         platform: [windows, macos, linux]
         ref: [main]
     runs-on: ubuntu-latest
@@ -20,7 +31,7 @@ jobs:
           ref: ${{ matrix.ref }}
           ssh-key: ${{ secrets.BINARY_ARCHIVE_DEPLOY_KEY }}
           sparse-checkout: |
-            ${{ matrix.version }}/managed.${{ matrix.platform }}.tar.gz
+            ${{ inputs.version }}/managed.${{ matrix.platform }}.tar.gz
           sparse-checkout-cone-mode: false
           path: ./hk-binary-archives
           
@@ -28,7 +39,7 @@ jobs:
         run: |
           mkdir vanilla-15
           cd ./vanilla-15
-          tar -xzf ../hk-binary-archives/${{ matrix.version }}/managed.${{ matrix.platform }}.tar.gz
+          tar -xzf ../hk-binary-archives/${{ inputs.version }}/managed.${{ matrix.platform }}.tar.gz
       
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
@@ -45,7 +56,7 @@ jobs:
       - name: Upload Binary
         uses: actions/upload-artifact@v4
         with:
-          name: build.${{ matrix.version }}.${{ matrix.platform }}
+          name: build.${{ inputs.version }}.${{ matrix.platform }}
           path: ./out-15/
 # name: build
 
