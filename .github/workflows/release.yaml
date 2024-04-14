@@ -40,7 +40,7 @@ jobs:
             zip -jr minisavestates.macos.zip ./artifacts/build.${{ inputs.hk-version }}.macos/*
             zip -jr minisavestates.linux.zip ./artifacts/build.${{ inputs.hk-version }}.linux/*
       
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: '20.x'
       - name: Install Node Dependencies
