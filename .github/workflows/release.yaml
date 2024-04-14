@@ -20,17 +20,17 @@ on:
         type: string
 
 jobs:
+  build-binaries:
+    uses: ./.github/workflows/build.yaml
+    with:
+      version: ${{ inputs.hk-version }}
   release:
+    needs: build-binaries
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
         
-      # Get binaries from build run.
-      - name: Build Binaries
-        uses: ./.github/workflows/build.yaml
-        with:
-          version: ${{ inputs.hk-version }}
       - name: Download Artifacts
         uses: actions/download-artifact@v4
         with:
