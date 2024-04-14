@@ -26,8 +26,8 @@ jobs:
           
       - name: Unpack Archive
         run: |
-          mkdir Managed
-          cd ./Managed
+          mkdir vanilla-15
+          cd ./vanilla-15
           tar -xzf ../hk-binary-archives/${{ matrix.version }}/managed.${{ matrix.platform }}.tar.gz
       
       - name: Setup .NET
