@@ -4,7 +4,7 @@ module.exports = async () => {
     const fs = require("node:fs/promises");
     const crypto = require("node:crypto");
 
-    const { HK_VERSION, MS_VERSION, CHANGELOG } = process.env;
+    const { HK_VERSION, MS_VERSION } = process.env;
 
     const relnotes = await fs.readFile("./.github/workflows/release_notes.md", { encoding: "utf-8" });
     const template = handlebars.compile(relnotes);
@@ -25,7 +25,6 @@ module.exports = async () => {
     const output = template({
         ms_version: MS_VERSION,
         hk_version: HK_VERSION,
-        changlelog: CHANGELOG,
         windows_cs: hash_windows.digest("hex"),
         macos_cs: hash_macos.digest("hex"),
         linux_cs: hash_linux.digest("hex"),

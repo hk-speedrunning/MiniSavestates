@@ -1,6 +1,6 @@
 # MiniSavestates {{ms_version}} for Hollow Knight {{hk_version}}
 
-{{changelog}}
+...
 
 ### Checksums
 * Windows: `{{windows_cs}}`

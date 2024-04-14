@@ -7,9 +7,6 @@ on:
         description: Release tag ID
         required: true
         type: string
-      notes:
-        description: Release notes
-        type: string
       ms-version:
         description: MiniSavestates version
         required: true
@@ -55,7 +52,6 @@ jobs:
         env:
           HK_VERSION: ${{ inputs.hk-version }}
           MS_VERSION: ${{ inputs.ms-version }}
-          CHANGELOG: ${{ inputs.notes }}
         with:
           result-encoding: string
           script: |
