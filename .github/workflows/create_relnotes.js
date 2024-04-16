@@ -8,10 +8,12 @@ module.exports = async () => {
 
     const relnotes = await fs.readFile("./.github/workflows/release_notes.md", { encoding: "utf-8" });
     const template = handlebars.compile(relnotes);
+    
+    const version_id = `v${MS_VERSION}-hk${HK_VERSION}`;
 
-    const artifact_windows = await fs.readFile(`./minisavestates.windows.zip`);
-    const artifact_macos = await fs.readFile(`./minisavestates.macos.zip`);
-    const artifact_linux = await fs.readFile(`./minisavestates.linux.zip`);
+    const artifact_windows = await fs.readFile(`./minisavestates.${version_id}.windows.zip`);
+    const artifact_macos = await fs.readFile(`./minisavestates.${version_id}.macos.zip`);
+    const artifact_linux = await fs.readFile(`./minisavestates.${version_id}.linux.zip`);
 
     const hash_windows = crypto.createHash("sha256");
     hash_windows.update(artifact_windows);
