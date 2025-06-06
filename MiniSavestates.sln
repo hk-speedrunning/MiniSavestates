@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "14xx", "14xx\14xx.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "12xx", "12xx\12xx.csproj", "{6A2797D1-5B66-4028-86EC-38D9A720D5AD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultiSaveStates 5Slots 15xx", "MultiSavestates 5Slots 15xx\MultiSaveStates 5Slots 15xx.csproj", "{AE4FA091-6250-4A7C-827C-276CF333570D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultiSaveStates 10Slots 15xx", "MultiSaveStates 10Slots 15xx\MultiSaveStates 10Slots 15xx.csproj", "{D9E84C12-BB08-48A1-B029-E76F160CD143}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +34,13 @@ Global
 		{6A2797D1-5B66-4028-86EC-38D9A720D5AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6A2797D1-5B66-4028-86EC-38D9A720D5AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6A2797D1-5B66-4028-86EC-38D9A720D5AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE4FA091-6250-4A7C-827C-276CF333570D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE4FA091-6250-4A7C-827C-276CF333570D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE4FA091-6250-4A7C-827C-276CF333570D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE4FA091-6250-4A7C-827C-276CF333570D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9E84C12-BB08-48A1-B029-E76F160CD143}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9E84C12-BB08-48A1-B029-E76F160CD143}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9E84C12-BB08-48A1-B029-E76F160CD143}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9E84C12-BB08-48A1-B029-E76F160CD143}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

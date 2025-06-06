@@ -1,0 +1,55 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net472</TargetFramework>
+        <AssemblyName>Assembly-CSharp.mm</AssemblyName>
+        <LangVersion>latest</LangVersion>
+        <Branch>multi5slots-15xx</Branch>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="MonoMod" Version="21.4.29.1">
+            <IncludeAssets>all</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
+	<ItemGroup>
+        <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+            <HintPath>../vanilla-$(Branch)/Assembly-CSharp.dll</HintPath>
+            <SpecificVersion>False</SpecificVersion>
+        </Reference>
+        <Reference Include="PlayMaker, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+            <HintPath>../vanilla-$(Branch)/PlayMaker.dll</HintPath>
+            <SpecificVersion>False</SpecificVersion>
+        </Reference>
+        <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+            <HintPath>../vanilla-$(Branch)/UnityEngine.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+            <HintPath>../vanilla-$(Branch)/UnityEngine.CoreModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.TextRenderingModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+            <HintPath>../vanilla-$(Branch)/UnityEngine.TextRenderingModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.JSONSerializeModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+            <HintPath>../vanilla-$(Branch)/UnityEngine.JSONSerializeModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.InputLegacyModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+            <HintPath>../vanilla-$(Branch)/UnityEngine.InputLegacyModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.IMGUIModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+            <HintPath>../vanilla-$(Branch)/UnityEngine.IMGUIModule.dll</HintPath>
+        </Reference>
+    </ItemGroup>
+    <PropertyGroup>
+        <Mono Condition="$(OS) == WINDOWS_NT" />
+        <Mono Condition="$(OS) != WINDOWS_NT">mono</Mono>
+    </PropertyGroup>
+    <ItemGroup>
+        <Files Include="$(ProjectDir)../vanilla-$(Branch)/*" />
+        <BuildDir Include="$(TargetDir)" />
+    </ItemGroup>
+    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+        <Copy SkipUnchangedFiles="true" SourceFiles="@(Files)" DestinationFolder="@(BuildDir)" />
+        <Delete Condition="Exists('MONOMODDED_Assembly-CSharp.dll')" Files="MONOMODDED_Assembly-CSharp.dll" />
+        <Exec WorkingDirectory="@(BuildDir)" Command="$(Mono) MonoMod.exe Assembly-CSharp.dll" />
+        <Copy SourceFiles="$(TargetDir)/MONOMODDED_Assembly-CSharp.dll" DestinationFiles="$(ProjectDir)../out-$(Branch)/Assembly-CSharp.dll" />
+    </Target>
+</Project>
